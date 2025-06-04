@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 import statsmodels.api as sm
+import statsmodels.formula.api as smf
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -249,7 +250,7 @@ def perform_three_way_anova(data: pd.DataFrame, dependent_var: str) -> Dict[str,
 
     try:
         formula = f"{dependent_var} ~ C(language) + C(identity) + C(strength) + C(language):C(identity) + C(language):C(strength) + C(identity):C(strength) + C(language):C(identity):C(strength)"
-        model = sm.formula.ols(formula, data=data).fit()
+        model = smf.ols(formula, data=data).fit()
         anova_table = sm.stats.anova_lm(model, type=2)
 
         results = {
